@@ -92,29 +92,41 @@ Compiling under a Debian environment
 
 You should already have a working GCC compiler environment installed.
 
+If not, try the following:
+
+```
 sudo apt-get upgrade
 sudo apt-get update
 sudo apt-get install build-essentials
+```
 
-Download and build libusb source:
+### Download and build libusb source:
 
+```
 wget http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.9/libusb-1.0.9.tar.bz2
 tar -xvf libusb-1.0.9.tar.bz2
 cd libusb-1.0.9
 ./configure
 make
 sudo make install
+```
 
-Install Java and OpenJDK
+### Install Java and OpenJDK
 
+```
 sudo apt-get update
 sudo apt-get install default-jre default-jdk
+```
 
-Install CMake
+### Install CMake
+
+CMake is required by portmidi
 
 ```
 sudo apt-get install cmake
 ```
+
+### Download and setup portmidi
 
 ```
 wget https://sourceforge.net/projects/portmedia/files/portmidi/217/portmidi-src-217.zip
@@ -123,20 +135,30 @@ cd portmidi
 cmake .
 ```
 
+The output folder paths seem to be set to /Release (from root!) so update the CMakeCache.txt file
+to point it to current directory/Release
+
 ```
  sed -i 's?\/Release?'`pwd`'\/Release?' CMakeCache.txt
 ```
 
+There is a bug in the CMake scripts that prevents the java version from being built. The following script 
+fixes this
+
 ```
 sed -i 's/pm_java\/pm_java/pm_java/' pm_java/CMakeFiles/pmdefaults_target.dir/build.make
 ```
+
+Now you can build and install
 
 ```
 make
 sudo make install
 ```
 
-Build rb3_driver
+### Build rb3_driver
+
+Now you can build the driver
 
 ```
 make
