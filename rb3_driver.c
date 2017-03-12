@@ -234,9 +234,16 @@ int main(int argc, char **argv) {
     }
     my_atexit(myusb_close, h);
 
+    r = libusb_detach_kernel_driver(h, interface_number);
+    if (r < 0) {
+        fprintf(stderr, "Failed to detach kernel driver - %d\n", r);
+        SLEEP_IF_CHOOSEDEVICE();
+        return r;
+    }
+
     r = libusb_claim_interface(h, interface_number);
     if (r < 0) {
-        fprintf(stderr, "Failed to claim input device interface\n");
+        fprintf(stderr, "Failed to claim input device interface - %d\n", r);
         SLEEP_IF_CHOOSEDEVICE();
         return r;
     }

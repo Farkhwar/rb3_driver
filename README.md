@@ -87,6 +87,67 @@ Once you have those in place (and your C compiler/build system obviously!),
 just type "make".  (I think this may require GNU make - if it doesn't work, it
 should be simple enough to adapt the Makefile.)
 
+Compiling under a Debian environment
+------------------------------------
+
+You should already have a working GCC compiler environment installed.
+
+sudo apt-get upgrade
+sudo apt-get update
+sudo apt-get install build-essentials
+
+Download and build libusb source:
+
+wget http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.9/libusb-1.0.9.tar.bz2
+tar -xvf libusb-1.0.9.tar.bz2
+cd libusb-1.0.9
+./configure
+make
+sudo make install
+
+Install Java and OpenJDK
+
+sudo apt-get update
+sudo apt-get install default-jre default-jdk
+
+Install CMake
+
+```
+sudo apt-get install cmake
+```
+
+```
+wget https://sourceforge.net/projects/portmedia/files/portmidi/217/portmidi-src-217.zip
+unzip portmidi-src-217.zip
+cd portmidi
+cmake .
+```
+
+```
+ sed -i 's?\/Release?'`pwd`'\/Release?' CMakeCache.txt
+```
+
+```
+sed -i 's/pm_java\/pm_java/pm_java/' pm_java/CMakeFiles/pmdefaults_target.dir/build.make
+```
+
+```
+make
+sudo make install
+```
+
+Build rb3_driver
+
+```
+make
+```
+
+Opening a USB device seems to require elevated access
+
+```
+sudo ./rb3_driver
+```
+
 
 How much of the keytar's functionality is implemented?
 ------------------------------------------------------
